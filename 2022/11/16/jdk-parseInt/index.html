@@ -16,21 +16,21 @@
   <meta name="author" content="张思岩">
   <meta name="keywords" content="">
   
-    <meta name="description" content="测试22222标题2正文 12System.out.print(&quot;hello world&quot;);System.out.print(&quot;hello world&quot;);  测试博客2022&#x2F;11&#x2F;06">
+    <meta name="description" content="JDK的Integer的parseInt方法 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657public static int parseInt(String s, int radix) throws NumberFormatExcep">
 <meta property="og:type" content="article">
-<meta property="og:title" content="第2篇测试博客">
-<meta property="og:url" content="https://zsy1728.github.io/2022/11/06/test2/index.html">
+<meta property="og:title" content="Integer的parseInt方法为什么用负数存储结果">
+<meta property="og:url" content="https://zsy1728.github.io/2022/11/16/jdk-parseInt/index.html">
 <meta property="og:site_name" content="zsy1728">
-<meta property="og:description" content="测试22222标题2正文 12System.out.print(&quot;hello world&quot;);System.out.print(&quot;hello world&quot;);  测试博客2022&#x2F;11&#x2F;06">
+<meta property="og:description" content="JDK的Integer的parseInt方法 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657public static int parseInt(String s, int radix) throws NumberFormatExcep">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-11-06T12:34:10.705Z">
-<meta property="article:modified_time" content="2022-11-06T12:58:39.169Z">
+<meta property="article:published_time" content="2022-11-16T13:22:47.957Z">
+<meta property="article:modified_time" content="2022-11-16T16:49:24.257Z">
 <meta property="article:author" content="张思岩">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>第2篇测试博客 - zsy1728</title>
+  <title>Integer的parseInt方法为什么用负数存储结果 - zsy1728</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +212,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="第2篇测试博客"></span>
+            <span id="subtitle" data-typed-text="Integer的parseInt方法为什么用负数存储结果"></span>
           
         </div>
 
@@ -223,8 +223,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-11-06 20:34" pubdate>
-          2022年11月6日 晚上
+        <time datetime="2022-11-16 21:22" pubdate>
+          2022年11月16日 晚上
         </time>
       </span>
     
@@ -235,7 +235,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          120 字
+          1.9k 字
         
       </span>
     
@@ -246,7 +246,7 @@
         
         
         
-          2 分钟
+          16 分钟
         
       </span>
     
@@ -284,15 +284,21 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">第2篇测试博客</h1>
+            <h1 style="display: none">Integer的parseInt方法为什么用负数存储结果</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="测试22222"><a href="#测试22222" class="headerlink" title="测试22222"></a>测试22222</h1><h2 id="标题2"><a href="#标题2" class="headerlink" title="标题2"></a>标题2</h2><p>正文</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs java">System.out.print(<span class="hljs-string">&quot;hello world&quot;</span>);<br>System.out.print(<span class="hljs-string">&quot;hello world&quot;</span>);<br></code></pre></td></tr></table></figure>
+                <p>JDK的Integer的parseInt方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-type">int</span> <span class="hljs-title function_">parseInt</span><span class="hljs-params">(String s, <span class="hljs-type">int</span> radix)</span> <span class="hljs-keyword">throws</span> NumberFormatException<br>    &#123;<br>        <span class="hljs-keyword">if</span> (s == <span class="hljs-literal">null</span>) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NumberFormatException</span>(<span class="hljs-string">&quot;null&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (radix &lt; Character.MIN_RADIX) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NumberFormatException</span>(<span class="hljs-string">&quot;radix &quot;</span> + radix +<br>                                            <span class="hljs-string">&quot; less than Character.MIN_RADIX&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-keyword">if</span> (radix &gt; Character.MAX_RADIX) &#123;<br>            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">NumberFormatException</span>(<span class="hljs-string">&quot;radix &quot;</span> + radix +<br>                                            <span class="hljs-string">&quot; greater than Character.MAX_RADIX&quot;</span>);<br>        &#125;<br><br>        <span class="hljs-type">int</span> <span class="hljs-variable">result</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>;<br>        <span class="hljs-type">boolean</span> <span class="hljs-variable">negative</span> <span class="hljs-operator">=</span> <span class="hljs-literal">false</span>;<br>        <span class="hljs-type">int</span> <span class="hljs-variable">i</span> <span class="hljs-operator">=</span> <span class="hljs-number">0</span>, len = s.length();<br>        <span class="hljs-type">int</span> <span class="hljs-variable">limit</span> <span class="hljs-operator">=</span> -Integer.MAX_VALUE;<br>        <span class="hljs-type">int</span> multmin;<br>        <span class="hljs-type">int</span> digit;<br><br>        <span class="hljs-keyword">if</span> (len &gt; <span class="hljs-number">0</span>) &#123;<br>            <span class="hljs-type">char</span> <span class="hljs-variable">firstChar</span> <span class="hljs-operator">=</span> s.charAt(<span class="hljs-number">0</span>);<br>            <span class="hljs-keyword">if</span> (firstChar &lt; <span class="hljs-string">&#x27;0&#x27;</span>) &#123; <span class="hljs-comment">// Possible leading &quot;+&quot; or &quot;-&quot;</span><br>                <span class="hljs-keyword">if</span> (firstChar == <span class="hljs-string">&#x27;-&#x27;</span>) &#123;<br>                    negative = <span class="hljs-literal">true</span>;<br>                    limit = Integer.MIN_VALUE;<br>                &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (firstChar != <span class="hljs-string">&#x27;+&#x27;</span>)<br>                    <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br><br>                <span class="hljs-keyword">if</span> (len == <span class="hljs-number">1</span>) <span class="hljs-comment">// Cannot have lone &quot;+&quot; or &quot;-&quot;</span><br>                    <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br>                i++;<br>            &#125;<br>            multmin = limit / radix;<br>            <span class="hljs-keyword">while</span> (i &lt; len) &#123;<br>                <span class="hljs-comment">// Accumulating negatively avoids surprises near MAX_VALUE</span><br>                digit = Character.digit(s.charAt(i++),radix);<br>                <span class="hljs-keyword">if</span> (digit &lt; <span class="hljs-number">0</span>) &#123;<br>                    <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br>                &#125;<br>                <span class="hljs-keyword">if</span> (result &lt; multmin) &#123;<br>                    <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br>                &#125;<br>                result *= radix;<br>                <span class="hljs-keyword">if</span> (result &lt; limit + digit) &#123;<br>                    <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br>                &#125;<br>                result -= digit;<br>            &#125;<br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            <span class="hljs-keyword">throw</span> NumberFormatException.forInputString(s);<br>        &#125;<br>        <span class="hljs-keyword">return</span> negative ? result : -result;<br>    &#125;<br></code></pre></td></tr></table></figure>
 
-<p>测试博客2022&#x2F;11&#x2F;06</p>
+<p>可以看到返回值是result，正负的标记位是bool negative 默认是false，第一位为负号时为true</p>
+<p>再看返回时，负号的情况为result 没有负号取负result，中间计算时也是减去中间变量digit。</p>
+<p>也就是result是负数存储，是它是从负值开始算的。即，解析“123“的话，依次解析的结果是，-1，-12，-123，然后根据符号，取相</p>
+<p>数。<strong>那么在计算过程中为什么不直接用正号操作呢</strong>？答案是<strong>防止越界</strong></p>
+<p>32位整型里面，由于符号位要占用一位，所以最大值为2147483647，而最小值为-2147483648</p>
+<p>如果我们要解析的数是 -2147483648, 那么, 在解析的过程中, 需要存储一个 2147483648 的值, 那么直接用 int 存储 2147483648, 会发</p>
+<p>溢出。因此这里的解决方案是, 使用负数来进行存储, 避免溢出。</p>
 
                 
               </div>
@@ -310,8 +316,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>第2篇测试博客</div>
-      <div>https://zsy1728.github.io/2022/11/06/test2/</div>
+      <div>Integer的parseInt方法为什么用负数存储结果</div>
+      <div>https://zsy1728.github.io/2022/11/16/jdk-parseInt/</div>
     </div>
     <div class="license-meta">
       
@@ -323,7 +329,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年11月6日</div>
+          <div>2022年11月16日</div>
         </div>
       
       
@@ -355,18 +361,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/16/jdk-parseInt/" title="Integer的parseInt方法为什么用负数存储结果">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Integer的parseInt方法为什么用负数存储结果</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/06/test/" title="第一篇测试博客">
-                        <span class="hidden-mobile">第一篇测试博客</span>
+                      <a href="/2022/11/06/test2/" title="第2篇测试博客">
+                        <span class="hidden-mobile">第2篇测试博客</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
