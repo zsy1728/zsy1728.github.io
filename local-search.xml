@@ -106,6 +106,31 @@
   
   
   <entry>
+    <title>详解mysql分区</title>
+    <link href="/2022/02/28/mysql%E5%88%86%E5%8C%BA/"/>
+    <url>/2022/02/28/mysql%E5%88%86%E5%8C%BA/</url>
+    
+    <content type="html"><![CDATA[<h1 id="一、分区简介"><a href="#一、分区简介" class="headerlink" title="一、分区简介"></a>一、分区简介</h1><h2 id="分区是什么"><a href="#分区是什么" class="headerlink" title="分区是什么"></a>分区是什么</h2><p>表分区：分区是根据一定的规则，数据库把一个表分解成多个更小的、更容易管理的部分。就访问数据库应用而言，逻辑上就只有一个表或者一个索引，但实际上这个表可能有N个物理分区对象组成，每个分区都是一个独立的对象，可以独立处理，可以作为表的一部分进行处理。</p><ul><li>分区不影响程序员编程：<strong>分区对应用来说是完全透明的，不影响应用的业务逻辑</strong>。</li><li>主键&#x2F;唯一键：无论哪种分区，要么你分区表上没有主键&#x2F;唯一键，要么分区表的主键&#x2F;唯一键都必须包含分区键，也就是说<strong>不能使用主键&#x2F;唯一键字段之外的其它字段分区</strong>。</li></ul><h2 id="分区能做什么"><a href="#分区能做什么" class="headerlink" title="分区能做什么"></a>分区能做什么</h2><ul><li>逻辑数据分割</li><li>提高单一的写和读应用速度</li><li>提高分区范围读查询的速度</li><li>分割数据能够有多个不同的物理文件路径</li><li>高效的保存历史数据</li><li>一个表上的约束检查</li><li>不同的主从服务器分区策略，例如master按Hash分区，slave按range分区</li></ul><h2 id="和分表的区别"><a href="#和分表的区别" class="headerlink" title="和分表的区别"></a>和分表的区别</h2><p>大表的数据分割到多张小表：分区和水平分表功能类似，将一个大表的数据分割到多张小表中去，由于查询不需要全表扫描了，只需要扫描某些分区，所以分区能提高查询速度。</p><p>水平分表：用户设定：需要用户预先手动显式创建出多张分表(如tbl_user0, tbl_user1, tbl_user2)，在物理上实实在在的创建多张表，通过客户端代理(Sharding-JDBC等)或者中间件代理(Mycat等)来实现分表逻辑。</p><p>分区：mysql默认帮你做，是MySQL的一个插件Plugin功能，将一张大表的数据在数据库底层分成多个分区文件(如tbl_user#P#p0.ibd, tbl_user#P#p1.ibd, tbl_user#P#p2.ibd)，和水平分表不同的是分区不需要显式的创建“分表”,数据库会自动创建分区文件的，用户看到的只是一张普通的表，其实是对应的是多个分区，这个是对用户是屏蔽的、透明的，在使用上和使用一张表完全一样，不需要借助任何功能来实现。分区是一种逻辑上的水平分表，在物理层面还是一张表。</p><table><thead><tr><th>分表</th><th>分区</th></tr></thead><tbody><tr><td>手动分表</td><td>自动分区</td></tr><tr><td>多张数据表</td><td>一张数据表</td></tr><tr><td>重复数据的风险</td><td>没有数据重复的风险</td></tr><tr><td>写入多张表</td><td>写入一张表</td></tr><tr><td>没有统一的约束限制</td><td>强制的约束限制</td></tr></tbody></table><h1 id="二、分区类型及用法"><a href="#二、分区类型及用法" class="headerlink" title="二、分区类型及用法"></a>二、分区类型及用法</h1><h2 id="1-Range-partition-范围分区"><a href="#1-Range-partition-范围分区" class="headerlink" title="1 Range partition(范围分区)"></a>1 Range partition(范围分区)</h2><p>Range partition是按照分区表达式的运算结果，判断结果落在某个范围内，从而将数据存储在对应的分区。各个分区定义之间需要连续且不能重叠，范围分区通过partition by range子句定义，而分区的范围通过values less than子句划分。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs mysql">create table employees (<br>    id int not null primary key,<br>    first_name varchar(30),<br>    last_name varchar(30))<br>    partition by range(id)(<br>    partition p0 values less than (11),<br>    partition p1 values less than (21),<br>    partition p2 values less than (31),<br>    partition p3 values less than (41)<br>    );<br></code></pre></td></tr></table></figure><h2 id="2-List-partition-列表分区"><a href="#2-List-partition-列表分区" class="headerlink" title="2 List partition(列表分区)"></a>2 List partition(列表分区)</h2><p>列表分区和范围分区类似，主要区别是list partition的分区范围是预先定义好的一系列值，而不是连续的范围。列表分区采用partition by list和values in子句定义。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE employees (<br>    id INT NOT NULL,<br>    fname VARCHAR(30),<br>    lname VARCHAR(30)<br>)<br>PARTITION BY LIST(id) (<br>    PARTITION p0 VALUES IN (1,3,5,7,9),<br>    PARTITION p1 VALUES IN (2,4,6,8,10)<br>);<br></code></pre></td></tr></table></figure><h2 id="3-Hash-partition-哈希分区"><a href="#3-Hash-partition-哈希分区" class="headerlink" title="3 Hash partition(哈希分区)"></a>3 Hash partition(哈希分区)</h2><p>Hash partition主要的应用场景是将数据平均的分布在指定数量的hash分区中。在range和list分区类型中，根据分区条件的计算结果，数据可以确定存储在哪个分区，而在hash分区中，数据存储在某个分区是由数据库自己决定的，你只需要指定分区的数量。</p><p>要创建hash分区，你需要使用create table的partition by hash(expr)子句，其中expr是整数类型的列或返还整数的表达式。另外还需要使用partions num来指定hash分区的数量(若忽略partitions子句则默认只创建1个hash分区)。</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs mysql">CREATE TABLE employees (<br>    id INT NOT NULL,<br>    first_name VARCHAR(30),<br>    last_name VARCHAR(30)<br>)<br>PARTITION BY HASH(id)<br>PARTITIONS 4;<br></code></pre></td></tr></table></figure><h2 id="4-Key-partition-键值分区"><a href="#4-Key-partition-键值分区" class="headerlink" title="4 Key partition(键值分区)"></a>4 Key partition(键值分区)</h2><p>Key paritition与hash分区类似，主要区别在于key partition的hash函数是由MySQL server提供的，且使用主键（或非空唯一键）作为分区列：</p><h1 id="三、分区做性能优化"><a href="#三、分区做性能优化" class="headerlink" title="三、分区做性能优化"></a>三、分区做性能优化</h1><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>数据量很大时，b树索引几乎失效</p><ul><li>回表后，返回量太大，响应时间巨慢、除非索引覆盖</li><li>维护索引代价高</li></ul><p>使用分区：</p><ul><li>全量扫描数据，不使用索引：根据分区规则大致定位需要的数据的位置</li><li>索引数据，并分离热点，如果数据存在热点，可以选择将热点单独存放于一个分区中，这样查询可以使用索引，也可以用缓存</li></ul><h2 id="分区失效"><a href="#分区失效" class="headerlink" title="分区失效"></a>分区失效</h2><ul><li>NULL值使分区过滤无效</li><li>分区列和索引列不匹配</li><li>选择分区的成本可能很高</li><li>打开并锁住底层表的成本可能很高</li><li>维护分区成本可能很高</li><li>存储引擎不支持或不同</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>后端工具框架</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>MySQL</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Swagger-接口文档利器</title>
     <link href="/2022/02/26/Swagger/"/>
     <url>/2022/02/26/Swagger/</url>
