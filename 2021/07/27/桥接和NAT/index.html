@@ -16,32 +16,22 @@
   <meta name="author" content="张思岩">
   <meta name="keywords" content="">
   
-    <meta name="description" content="记录学习git的笔记">
+    <meta name="description" content="虚拟机桥接模式和NAT模式的区别">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Git和GitHub从入门到放弃">
-<meta property="og:url" content="http://zsy1728.gitee.io/2021/07/06/git-github/index.html">
+<meta property="og:title" content="桥接模式和NAT模式的区别">
+<meta property="og:url" content="http://zsy1728.gitee.io/2021/07/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/index.html">
 <meta property="og:site_name" content="zsy1728">
-<meta property="og:description" content="记录学习git的笔记">
+<meta property="og:description" content="虚拟机桥接模式和NAT模式的区别">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CtYo9OH8MID1Wgu2.jpg">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CQQ%E6%88%AA%E5%9B%BE20221127114522.png">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5Ct7dIHBzqpLA2gVD.png">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CsWMYmEFz75dToaC.jpg">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CX7GMWnAuim3ayRO.jpg">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CKNg4PubIpEximlZ.png">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5C3R7OTHHVI0HNAB6JXU.png">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CjUhPYX6io3lM8z1.jpg">
-<meta property="og:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CRnxhNFT6MpgbBld.jpg">
-<meta property="article:published_time" content="2021-07-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-11-27T04:45:56.047Z">
+<meta property="article:published_time" content="2021-07-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-30T16:29:54.996Z">
 <meta property="article:author" content="张思岩">
-<meta property="article:tag" content="git">
+<meta property="article:tag" content="虚拟机">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://zsy1728.gitee.io/%5Cimg%5Cgit-github%5CtYo9OH8MID1Wgu2.jpg">
   
   
   
-  <title>Git和GitHub从入门到放弃 - zsy1728</title>
+  <title>桥接模式和NAT模式的区别 - zsy1728</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -223,7 +213,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Git和GitHub从入门到放弃"></span>
+            <span id="subtitle" data-typed-text="桥接模式和NAT模式的区别"></span>
           
         </div>
 
@@ -234,8 +224,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2021-07-06 00:00" pubdate>
-          2021年7月6日 凌晨
+        <time datetime="2021-07-27 00:00" pubdate>
+          2021年7月27日 凌晨
         </time>
       </span>
     
@@ -246,7 +236,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.8k 字
+          843 字
         
       </span>
     
@@ -257,7 +247,7 @@
         
         
         
-          24 分钟
+          8 分钟
         
       </span>
     
@@ -295,119 +285,23 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Git和GitHub从入门到放弃</h1>
+            <h1 style="display: none">桥接模式和NAT模式的区别</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Git的安装及配置"><a href="#Git的安装及配置" class="headerlink" title="Git的安装及配置"></a>Git的安装及配置</h1><p>Git是一个版本控制管理工具，在项目管理方面有着极其重要的作用。下面是Git的安装步骤：</p>
-<h2 id="Git安装"><a href="#Git安装" class="headerlink" title="Git安装"></a>Git安装</h2><p>Git官网：<a target="_blank" rel="noopener" href="https://git-scm.com/">https://git-scm.com/</a></p>
-<p>在官网下载相应软件后，进行双击安装，一路next即可。</p>
-<p>安装完成后，在任意文件夹下右击，可看到其两个标志，其中<code>Git Bash Here</code>是我们常用的选项：</p>
-<p><img src="/%5Cimg%5Cgit-github%5CtYo9OH8MID1Wgu2.jpg" srcset="/img/loading.gif" lazyload></p>
-<p>点击可进入Git命令行，输入<code>git --version</code>后回车，出现版本信息即安装成功！</p>
-<h2 id="Git使用前配置"><a href="#Git使用前配置" class="headerlink" title="Git使用前配置"></a>Git使用前配置</h2><p>使用Git前，你需要告诉Git你是谁，有如下配置：</p>
-<p>配置提交人名称：<code>git config --global user.name 你的名称</code></p>
-<p>配置提交人邮箱：<code>git config --global user.email 你的邮箱</code></p>
-<p>查看git配置信息：<code>git config --list</code></p>
-<p><img src="/%5Cimg%5Cgit-github%5CQQ%E6%88%AA%E5%9B%BE20221127114522.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>注意：你的名称和邮箱应该尽量与你的GitHub名称及邮箱保持一致，如果需要修改，重复以上代码即可。</strong></p>
-<h1 id="Git的使用"><a href="#Git的使用" class="headerlink" title="Git的使用"></a>Git的使用</h1><h2 id="提交步骤"><a href="#提交步骤" class="headerlink" title="提交步骤"></a>提交步骤</h2><ol>
-<li><code>git init</code> 初始化git仓库，执行后文件夹中会有一个.git文件夹，如果没有，则选择显示隐藏文件</li>
-<li><code>git status</code> 查看文件状态</li>
-<li><code>git add</code> 文件列表 追踪文件，添加到暂存区</li>
-<li><code>git commit -m</code> 提交信息 向仓库提交代码，并标上相应的信息</li>
-<li><code>git log</code> 查看提交记录</li>
-</ol>
-<h2 id="撤销方法"><a href="#撤销方法" class="headerlink" title="撤销方法"></a>撤销方法</h2><ol>
-<li><code>git checkout</code> 文件 用暂存区的文件覆盖工作目录中的文件；</li>
-<li><code>git rm --cashed</code> 文件 将文件从暂存区中删除；</li>
-<li><code>git reset --hard commitID</code> 恢复到指定的提交记录并覆盖暂存区和工作目录，之后的提交记录也会消失；commitID使用git log获取；</li>
-</ol>
-<h2 id="分支的使用"><a href="#分支的使用" class="headerlink" title="分支的使用"></a>分支的使用</h2><p> 分支可以理解为当前工作目录的一个副本，使用分支可以使开发从主线上分离出来，避免影响主线开发。</p>
-<h3 id="分支细分"><a href="#分支细分" class="headerlink" title="分支细分"></a>分支细分</h3><ul>
-<li><strong>主分支（master）</strong>: 第一次向git仓库中提交更新记录时自动产生的一个主线分支。</li>
-<li><strong>开发分支（develop）</strong>：作为开发的分支，基于master分支而创建。</li>
-<li><strong>功能分支（feature）</strong>：作为开发具体功能的分支，基于开发分支创建。</li>
-</ul>
-<h3 id="分支命令"><a href="#分支命令" class="headerlink" title="分支命令"></a>分支命令</h3><ul>
-<li><code>git branch</code> 查看分支</li>
-<li><code>git branch</code> 分支名称 创建分支</li>
-<li><code>git checkout</code> 分支名称 切换到该分支</li>
-<li><code>git merge</code> 来源分支 合并分支</li>
-<li><code>git branch -d</code> 分支名称 删除分支（分支合并后才可以被删除）（-d改为-D强制删除）</li>
-</ul>
-<h3 id="暂时保存更改"><a href="#暂时保存更改" class="headerlink" title="暂时保存更改"></a>暂时保存更改</h3><p> 在git中，可以暂时提取分支上所有的改动并存储，让开发人员得到个干净的工作副本，临时转向其他工作，相当于一个剪贴板的作用。</p>
-<p>使用场景：当当前分支未开发完成，放到暂存区但未提交到库，这时需要做其他任务，如果直接过去，那么暂存区的内容也将被携带过去。这时，就需要以下命令将暂存区内容暂时存储到类似剪贴板的地方，并清空暂存区，之后再恢复。</p>
-<p>存储临时改动：<code>git stash</code><br>恢复改动：<code>git stash pop</code> (恢复前要在正确的分支上恢复，否则会恢复到其他分支上)</p>
-<h1 id="GitHub的使用"><a href="#GitHub的使用" class="headerlink" title="GitHub的使用"></a>GitHub的使用</h1><p> 在版本控制系统中，大约90%的操作都是在本地库中进行的：暂存，提交，查看状态或者历史记录等等，除此之外，如果仅仅只有你一个人在这个项目里工作，那么本地仓库就足够了。<br> 当你要和你的开发団队共享数据时，设置一个远程仓库才有意义。你可以把它想象成一个“文件管理服务器”，利用这个服务器可以与开发团队的其他成员进行数据交换。</p>
-<h2 id="GitHub注册"><a href="#GitHub注册" class="headerlink" title="GitHub注册"></a>GitHub注册</h2><p>前往<a target="_blank" rel="noopener" href="https://github.com/">GitHub</a>主页，点击Sign up进行注册账号。填写相应的用户名、邮箱、密码等相应信息即可。</p>
-<p><img src="/%5Cimg%5Cgit-github%5Ct7dIHBzqpLA2gVD.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="多人协作流程"><a href="#多人协作流程" class="headerlink" title="多人协作流程"></a>多人协作流程</h2><ol>
-<li>A在自己的计算机中创建本地仓库；</li>
-<li>A在 github中创建远程仓库；</li>
-<li>A将本地仓库推送到远程仓库；</li>
-<li>B克隆远程仓库到本地进行开发；</li>
-<li>B将本地仓库中开发的内容推送到远程合库；</li>
-<li>A将远程仓库中的最新内容拉去到本地。</li>
-</ol>
-<h2 id="仓库初建时"><a href="#仓库初建时" class="headerlink" title="仓库初建时"></a>仓库初建时</h2><p><img src="/%5Cimg%5Cgit-github%5CsWMYmEFz75dToaC.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="仓库建成后"><a href="#仓库建成后" class="headerlink" title="仓库建成后"></a>仓库建成后</h2><p><img src="/%5Cimg%5Cgit-github%5CX7GMWnAuim3ayRO.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="将本地仓库推送到远程仓库"><a href="#将本地仓库推送到远程仓库" class="headerlink" title="将本地仓库推送到远程仓库"></a>将本地仓库推送到远程仓库</h2><p>在GitHub上创建一个仓库，找到其仓库地址：</p>
-<p><img src="/%5Cimg%5Cgit-github%5CKNg4PubIpEximlZ.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="推送到远程仓库的命令"><a href="#推送到远程仓库的命令" class="headerlink" title="推送到远程仓库的命令"></a>推送到远程仓库的命令</h2><ol>
-<li><code>git push 远程仓库地址 分支名称</code></li>
-<li><code>git remote add 远程仓库别名 远程仓库地址</code> （给远程仓库起一个别名，一般设置origin）</li>
-<li><code>git push 远程仓库别名 分支名称</code></li>
-<li><code>git push -u 远程仓库别名 分支名称</code> （-u表示记录推送地址及分支，下次推送只需要输入git push即可）</li>
-</ol>
-<h2 id="从本地向远程仓库提交的基本步骤"><a href="#从本地向远程仓库提交的基本步骤" class="headerlink" title="从本地向远程仓库提交的基本步骤"></a>从本地向远程仓库提交的基本步骤</h2><ol>
-<li><code>git add</code> 文件列表 追踪文件，添加到本地暂存区；</li>
-<li><code>git commit -m</code> 提交信息 向本地仓库提交代码，并标上相应的信息；</li>
-<li><code>git push</code> 远程仓库别名 分支名称提交到远程仓库。（别名需要事先声明）</li>
-</ol>
-<h2 id="克隆远程仓库"><a href="#克隆远程仓库" class="headerlink" title="克隆远程仓库"></a>克隆远程仓库</h2><ul>
-<li>克隆远程仓库：<code>git clone</code> 仓库地址 （另外，其地址别名也会被克隆过来）</li>
-</ul>
-<h2 id="克隆者向远程仓库提交代码"><a href="#克隆者向远程仓库提交代码" class="headerlink" title="克隆者向远程仓库提交代码"></a>克隆者向远程仓库提交代码</h2><p> 克隆不需要权限，但是如果克隆后对代码进行贡献，且想要推送到原远程仓库就需要被授予一定的权限。具体步骤如下：</p>
-<p><strong>原远程仓库创建者在GitHub上邀请团队成员：</strong></p>
-<p><img src="/%5Cimg%5Cgit-github%5C3R7OTHHVI0HNAB6JXU.png" srcset="/img/loading.gif" lazyload></p>
-<p><strong>获取邀请链接并发送给该成员：</strong></p>
-<p><img src="/%5Cimg%5Cgit-github%5CjUhPYX6io3lM8z1.jpg" srcset="/img/loading.gif" lazyload></p>
-<p><strong>被邀请成员登录GitHub，并将收到的邀请链接复制到浏览器地址栏进入，进行确认即可。</strong></p>
-<h2 id="拉取远程仓库的最新版本"><a href="#拉取远程仓库的最新版本" class="headerlink" title="拉取远程仓库的最新版本"></a>拉取远程仓库的最新版本</h2><p> 当远程仓库版本高于本地仓库版本时，是无法提交到远程库的，需要先pull拉取最新版本后再进行提交。</p>
-<ul>
-<li>拉取远程仓库最新版本：<code>git pull 远程仓库地址 分支名称</code> （同样可使用别名）</li>
-</ul>
-<h2 id="解决冲突"><a href="#解决冲突" class="headerlink" title="解决冲突"></a>解决冲突</h2><ul>
-<li>在多人同时开发一个项目时，如果两个人修改了同一个文件的同一个地方，就会发生冲突。冲突需要人为解决。</li>
-<li>推送前pull拉取远程库最新版本，查看冲突，进行修改并删除无用的地方再提交即可。</li>
-</ul>
-<p><img src="/%5Cimg%5Cgit-github%5CRnxhNFT6MpgbBld.jpg" srcset="/img/loading.gif" lazyload></p>
-<h2 id="跨团队协作"><a href="#跨团队协作" class="headerlink" title="跨团队协作"></a>跨团队协作</h2><ul>
-<li>某团队外成员C将该项目fork（相当于复制一份到自己的仓库）到自己的GitHub中；</li>
-<li>C将自己fork到的远程仓库克隆到本地仓库中进行修改；</li>
-<li>对本地修改正常推送到自己GitHub上fork到的远程库；</li>
-<li>点击<code>Pull requests</code> -&gt; <code>New pull requests</code> -&gt; <code>Create pull request</code> ,添加相应描述即可创建。</li>
-<li>团队内外成员可在<code>Write区</code>进行对话</li>
-<li>团队成员核查完发现代码没有问题，就可以进行合并（Merge pull request）了。</li>
-</ul>
-<h2 id="SSH免登录"><a href="#SSH免登录" class="headerlink" title="SSH免登录"></a>SSH免登录</h2><p> 使用http地址进行推送时，每次都需要输入github用户名和密码（win10可以记录密码，因此不需要多次），而使用SSH（公钥与私钥结合）则可以免登录验证。步骤如下：</p>
-<ul>
-<li>生成私钥：<code>ssh-keygen</code></li>
-<li>私钥默认存储目录：<code>C:\Users\用户\\.ssh</code></li>
-<li>公钥名称：<code>id_rsa.pub</code></li>
-<li>私钥名称：<code>id_rsa</code></li>
-<li>用户将公钥串进行复制，再到GitHub上，<code>Settings</code> -&gt; <code>SSH and GPG keys</code> , 将公钥粘贴到Key位置进行添加即可。</li>
-<li>然后再进行项目提交等操作，只需要复制SSH地址，取别名等方式与http方式相同。</li>
-</ul>
-<h2 id="git忽略清单"><a href="#git忽略清单" class="headerlink" title="git忽略清单"></a>git忽略清单</h2><p> 将不需要被git管理的文件名字添加到此文件中，在执行git命令的时候，git就会忽略这些文件.</p>
-<ul>
-<li>git忽略清单固定名称：<code>.gitignore</code></li>
-<li>在该文件中，写上需要忽略的文件即可。</li>
-</ul>
-<h2 id="GitHub项目介绍"><a href="#GitHub项目介绍" class="headerlink" title="GitHub项目介绍"></a>GitHub项目介绍</h2><p>创建<code>readme.md</code>文件，在文件中写入相应的项目介绍，在github中即可看到其介绍。</p>
-<h2 id="常用命令手册下载"><a href="#常用命令手册下载" class="headerlink" title="常用命令手册下载"></a>常用命令手册下载</h2><p><a target="_blank" rel="noopener" href="https://liaoxuefeng.gitee.io/resource.liaoxuefeng.com/git/git-cheat-sheet.pdf">点击这里</a>下载常用命令手册 <code>Git Cheat Sheet</code></p>
+                <h3 id="一、桥接模式（bridged-networking）"><a href="#一、桥接模式（bridged-networking）" class="headerlink" title="一、桥接模式（bridged networking）"></a>一、桥接模式（bridged networking）</h3><p>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中一台独立的主机，它能够访问网内任何一台机器。</p>
+<p><strong>在桥接模式下，你必须手工为虚拟系统配置IP地址、子网掩码，并且还要和宿主机器处于同一网段，这样虚拟系统才干和宿主机器进行通信。</strong></p>
+<p>配置好网关和DNS的地址后。才能实现通过局域网的网关或路由器访问互联网。</p>
+<p><strong>桥接模式：虚机和物理主机可通信，可与外网通信。</strong></p>
+<h3 id="二、NAT模式-network-address-translation"><a href="#二、NAT模式-network-address-translation" class="headerlink" title="二、NAT模式(network address translation)"></a>二、NAT模式(network address translation)</h3><p>这种模式就是让虚拟系统借助NAT(网络地址转换)功能，通过宿主机器所在的网络来访问公网。</p>
+<p><strong>也就是说，使用NAT模式能够实现在虚拟的系统里面直接访问互联网。NAT模式下的虚拟系统的TCP&#x2F;IP配置信息是由VMnet8(NAT)虚拟网络的DHCPserver提供的，无法进行手工改动，因此虚拟系统也就无法和本局域网中的其它真实主机进行通讯。採用NAT模式最大的优势是虚拟系统接入互联网很easy。仅仅需要宿主机器能访问互联网，不需配置IP地址，子网掩码，网关。可是DNS地址还是要依据实际情况配的。</strong></p>
+<p>加入DNS地址除了在网卡属性中填写。还能够在虚拟机中的“虚拟网络编辑器”中的NAT选项卡中点击“编辑”button中来加入。</p>
+<p>如今是主机和虚拟机互通，假设你的adsl带路由功能。那关闭虚拟机的dhcp，选桥接，检查2机是否分配同网段的IP，关闭防火墙。</p>
+<p>NAT模式：虚机可和外网通信</p>
+<h3 id="三、仅主机模式："><a href="#三、仅主机模式：" class="headerlink" title="三、仅主机模式："></a>三、仅主机模式：</h3><p>仅让虚拟机的系统之间与物理主机通信，不能访问外网，在真机中对应的物理网卡是VMnet1。</p>
+<p>如果只是要让虚拟机能上网，这桥接模式和nat模式都可以使用。用桥接的话只要你在局域网内有合法的地址，比方你的ADSL猫是带路由功能的，假设是在单位。那就要网管给你合法IP才行（如今公司都是mac和ip绑定的）。</p>
+<p>原文链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_34536480/article/details/114266461">https://blog.csdn.net/qq_34536480/article/details/114266461</a></p>
 
                 
               </div>
@@ -426,7 +320,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/" class="category-chain-item">后端工具框架</a>
+  <a href="/categories/%E7%BD%91%E7%BB%9C/" class="category-chain-item">网络</a>
   
   
 
@@ -441,7 +335,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/git/">#git</a>
+        <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA/">#虚拟机</a>
       
     </div>
   
@@ -453,8 +347,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Git和GitHub从入门到放弃</div>
-      <div>http://zsy1728.gitee.io/2021/07/06/git-github/</div>
+      <div>桥接模式和NAT模式的区别</div>
+      <div>http://zsy1728.gitee.io/2021/07/27/桥接和NAT/</div>
     </div>
     <div class="license-meta">
       
@@ -466,7 +360,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2021年7月6日</div>
+          <div>2021年7月27日</div>
         </div>
       
       
@@ -498,15 +392,21 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/07/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/" title="桥接模式和NAT模式的区别">
+                      <a href="/2021/10/06/vue%E5%AD%A6%E4%B9%A0/" title="Vue.js学习笔记终极版">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">桥接模式和NAT模式的区别</span>
+                        <span class="hidden-mobile">Vue.js学习笔记终极版</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2021/07/06/git-github/" title="Git和GitHub从入门到放弃">
+                        <span class="hidden-mobile">Git和GitHub从入门到放弃</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>
