@@ -4,6 +4,25 @@
   
   
   <entry>
+    <title>linux伙伴系统分配内存流程</title>
+    <link href="/2022/12/18/linux/"/>
+    <url>/2022/12/18/linux/</url>
+    
+    <content type="html"><![CDATA[<p>Linux伙伴系统主要分配流程为</p><p>正常非配(或叫快速分配)流程：</p><p>1，如果分配的是单个页面，考虑从per CPU缓存中分配空间，如果缓存中没有页面，从伙伴系统中提取页面做补充。</p><p>2，分配多个页面时，从指定类型中分配，如果指定类型中没有足够的页面，从备用类型链表中分配。最后会试探保留类型链表。</p><p>慢速(允许等待和页面回收)分配：</p><p>3，当上面两种分配方案都不能满足要求时，考虑页面回收、杀死进程等操作后在试。<br><img src="/%5Cimg%5Clinux_buddy.png" alt="linux_buddy"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+    </categories>
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>JDK：CharacterData和CharacterDataLatin1</title>
     <link href="/2022/11/30/jdk-Character/"/>
     <url>/2022/11/30/jdk-Character/</url>
@@ -77,6 +96,25 @@
       <tag>源码</tag>
       
     </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>算法与数据结构</title>
+    <link href="/2022/07/27/code/"/>
+    <url>/2022/07/27/code/</url>
+    
+    <content type="html"><![CDATA[<h1 id="数组的中位数：基于快排"><a href="#数组的中位数：基于快排" class="headerlink" title="数组的中位数：基于快排"></a>数组的中位数：基于快排</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">median</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>    <span class="hljs-comment">// Please note: the `k` must be (nums.length + 1) / 2 - 1 in order to satisfy the requirement</span><br>    <span class="hljs-keyword">return</span> partition(nums, <span class="hljs-number">0</span>, nums.length - <span class="hljs-number">1</span>, nums.length/<span class="hljs-number">2</span>);<br>&#125;<br><br><span class="hljs-comment">// Same to find kth smallest element in an array</span><br><span class="hljs-comment">// Modified for the partition function of quicksort</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-title function_">partition</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right, <span class="hljs-type">int</span> k)</span> &#123;<br>    <span class="hljs-keyword">if</span> (left == right) &#123;<br>        <span class="hljs-keyword">return</span> nums[k];<br>    &#125;<br>    <br>    <span class="hljs-type">int</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> left;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> right;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">pivot</span> <span class="hljs-operator">=</span> nums[(end - start) / <span class="hljs-number">2</span> + start];<br>    <span class="hljs-keyword">while</span> (start &lt;= end) &#123;<br>        <span class="hljs-keyword">while</span> (nums[start] &lt; pivot &amp;&amp; start &lt;= end) &#123;<br>            start++;<br>        &#125;<br>        <span class="hljs-keyword">while</span> (nums[end] &gt; pivot &amp;&amp; start &lt;= end) &#123;<br>            end--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (start &lt;= end) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> nums[start];<br>            nums[start] = nums[end];<br>            nums[end] = temp;<br>            start++;<br>            end--;<br>        &#125;<br>    &#125;<br>    <br>    <br>    <span class="hljs-keyword">if</span> (k &lt;= end) &#123;<br>        <span class="hljs-keyword">return</span> partition(nums, left, end, k);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (k &gt;= start) &#123;<br>        <span class="hljs-keyword">return</span> partition(nums, start, right, k);<br>    &#125;<br>    <span class="hljs-keyword">return</span> nums[k];<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法与数据结构</category>
+      
+    </categories>
+    
     
   </entry>
   
