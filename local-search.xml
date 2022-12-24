@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>SpringBoot启动慢怎么破</title>
+    <link href="/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/"/>
+    <url>/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/</url>
+    
+    <content type="html"><![CDATA[<p>Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，maven中是否无用的依赖太多，其实大部分的启动时间是由于 Spring 需要加载各种 Bean 导致启动速度下降的。</p><p><strong>所以我们现在讨论如何用 BeanPostProcessor 统计 Bean 的初始化时间。</strong></p><p><img src="/img/spring/1350888580_1225.jpg" alt="bean生命周期"></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloServiceInjectProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">BeanPostProcessor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ConcurrentHashMap&lt;String, Long&gt; START_TIHE = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>(); <br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        START_TIME.put(beanName, System.currentTimeMillis( ));<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br> <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-keyword">if</span> (Objects.notNull(START_TIME.get(beanName))) &#123;<br>            <span class="hljs-comment">// print something</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>]]></content>
+    
+    
+    <categories>
+      
+      <category>后端工具框架</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Spring</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>linux伙伴系统分配内存流程</title>
     <link href="/2022/12/18/linux/"/>
     <url>/2022/12/18/linux/</url>

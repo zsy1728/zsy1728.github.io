@@ -16,23 +16,24 @@
   <meta name="author" content="张思岩">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一张函数流程图解释了page_alloc.c中分配">
+    <meta name="description" content="Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，本文主要介绍一种解决方案">
 <meta property="og:type" content="article">
-<meta property="og:title" content="linux伙伴系统分配内存流程">
-<meta property="og:url" content="http://zsy1728.gitee.io/2022/12/18/linux/index.html">
+<meta property="og:title" content="SpringBoot启动慢怎么破">
+<meta property="og:url" content="http://zsy1728.gitee.io/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/index.html">
 <meta property="og:site_name" content="zsy1728">
-<meta property="og:description" content="一张函数流程图解释了page_alloc.c中分配">
+<meta property="og:description" content="Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，本文主要介绍一种解决方案">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://zsy1728.gitee.io/img/linux_buddy.png">
-<meta property="article:published_time" content="2022-12-17T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-12-19T04:27:08.331Z">
+<meta property="og:image" content="http://zsy1728.gitee.io/img/spring/1350888580_1225.jpg">
+<meta property="article:published_time" content="2022-12-24T14:56:17.000Z">
+<meta property="article:modified_time" content="2022-12-24T15:27:03.679Z">
 <meta property="article:author" content="张思岩">
+<meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://zsy1728.gitee.io/img/linux_buddy.png">
+<meta name="twitter:image" content="http://zsy1728.gitee.io/img/spring/1350888580_1225.jpg">
   
   
   
-  <title>linux伙伴系统分配内存流程 - zsy1728</title>
+  <title>SpringBoot启动慢怎么破 - zsy1728</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -214,7 +215,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="linux伙伴系统分配内存流程"></span>
+            <span id="subtitle" data-typed-text="SpringBoot启动慢怎么破"></span>
           
         </div>
 
@@ -225,8 +226,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-12-18 00:00" pubdate>
-          2022年12月18日 凌晨
+        <time datetime="2022-12-24 22:56" pubdate>
+          2022年12月24日 晚上
         </time>
       </span>
     
@@ -237,7 +238,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          196 字
+          721 字
         
       </span>
     
@@ -248,7 +249,7 @@
         
         
         
-          2 分钟
+          7 分钟
         
       </span>
     
@@ -286,18 +287,16 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">linux伙伴系统分配内存流程</h1>
+            <h1 style="display: none">SpringBoot启动慢怎么破</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Linux伙伴系统主要分配流程为</p>
-<p>正常非配(或叫快速分配)流程：</p>
-<p>1，如果分配的是单个页面，考虑从per CPU缓存中分配空间，如果缓存中没有页面，从伙伴系统中提取页面做补充。</p>
-<p>2，分配多个页面时，从指定类型中分配，如果指定类型中没有足够的页面，从备用类型链表中分配。最后会试探保留类型链表。</p>
-<p>慢速(允许等待和页面回收)分配：</p>
-<p>3，当上面两种分配方案都不能满足要求时，考虑页面回收、杀死进程等操作后在试。</p>
-<p><img src="/img/linux_buddy.png" srcset="/img/loading.gif" lazyload alt="linux_buddy"></p>
+                <p>Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，maven中是否无用的依赖太多，其实大部分的启动时间是由于 Spring 需要加载各种 Bean 导致启动速度下降的。</p>
+<p><strong>所以我们现在讨论如何用 BeanPostProcessor 统计 Bean 的初始化时间。</strong></p>
+<p><img src="/img/spring/1350888580_1225.jpg" srcset="/img/loading.gif" lazyload alt="bean生命周期"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloServiceInjectProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">BeanPostProcessor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ConcurrentHashMap&lt;String, Long&gt; START_TIHE = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>(); <br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        START_TIME.put(beanName, System.currentTimeMillis( ));<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br> <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-keyword">if</span> (Objects.notNull(START_TIME.get(beanName))) &#123;<br>            <span class="hljs-comment">// print something</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
 
                 
               </div>
@@ -316,7 +315,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  <a href="/categories/%E5%90%8E%E7%AB%AF%E5%B7%A5%E5%85%B7%E6%A1%86%E6%9E%B6/" class="category-chain-item">后端工具框架</a>
   
   
 
@@ -328,6 +327,13 @@
     </div>
   
   
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Spring/">#Spring</a>
+      
+    </div>
+  
 </div>
 
 
@@ -336,8 +342,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>linux伙伴系统分配内存流程</div>
-      <div>http://zsy1728.gitee.io/2022/12/18/linux/</div>
+      <div>SpringBoot启动慢怎么破</div>
+      <div>http://zsy1728.gitee.io/2022/12/24/springboot启动慢/</div>
     </div>
     <div class="license-meta">
       
@@ -349,7 +355,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年12月18日</div>
+          <div>2022年12月24日</div>
         </div>
       
       
@@ -381,18 +387,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/" title="SpringBoot启动慢怎么破">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">SpringBoot启动慢怎么破</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/11/30/jdk-Character/" title="JDK：CharacterData和CharacterDataLatin1">
-                        <span class="hidden-mobile">JDK：CharacterData和CharacterDataLatin1</span>
+                      <a href="/2022/12/18/linux/" title="linux伙伴系统分配内存流程">
+                        <span class="hidden-mobile">linux伙伴系统分配内存流程</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
