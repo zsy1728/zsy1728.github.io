@@ -16,21 +16,23 @@
   <meta name="author" content="张思岩">
   <meta name="keywords" content="">
   
-    <meta name="description" content="收集一些精彩的代码">
+    <meta name="description" content="Android Studio第一次打开应用时gradle下载慢">
 <meta property="og:type" content="article">
-<meta property="og:title" content="算法与数据结构">
-<meta property="og:url" content="http://zsy1728.gitee.io/2022/07/27/code/index.html">
+<meta property="og:title" content="打开应用时gradle下载慢">
+<meta property="og:url" content="http://zsy1728.gitee.io/2023/01/15/gradle/index.html">
 <meta property="og:site_name" content="zsy1728">
-<meta property="og:description" content="收集一些精彩的代码">
+<meta property="og:description" content="Android Studio第一次打开应用时gradle下载慢">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-07-26T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-12-18T03:54:23.910Z">
+<meta property="og:image" content="http://zsy1728.gitee.io/img/20160602175350971.png">
+<meta property="article:published_time" content="2023-01-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2023-01-15T15:06:18.897Z">
 <meta property="article:author" content="张思岩">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://zsy1728.gitee.io/img/20160602175350971.png">
   
   
   
-  <title>算法与数据结构 - zsy1728</title>
+  <title>打开应用时gradle下载慢 - zsy1728</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -212,7 +214,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="算法与数据结构"></span>
+            <span id="subtitle" data-typed-text="打开应用时gradle下载慢"></span>
           
         </div>
 
@@ -223,8 +225,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-07-27 00:00" pubdate>
-          2022年7月27日 凌晨
+        <time datetime="2023-01-15 00:00" pubdate>
+          2023年1月15日 凌晨
         </time>
       </span>
     
@@ -235,7 +237,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          901 字
+          861 字
         
       </span>
     
@@ -284,13 +286,30 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">算法与数据结构</h1>
+            <h1 style="display: none">打开应用时gradle下载慢</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="数组的中位数：基于快排"><a href="#数组的中位数：基于快排" class="headerlink" title="数组的中位数：基于快排"></a>数组的中位数：基于快排</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-type">int</span> <span class="hljs-title function_">median</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums)</span> &#123;<br>    <span class="hljs-comment">// Please note: the `k` must be (nums.length + 1) / 2 - 1 in order to satisfy the requirement</span><br>    <span class="hljs-keyword">return</span> partition(nums, <span class="hljs-number">0</span>, nums.length - <span class="hljs-number">1</span>, nums.length/<span class="hljs-number">2</span>);<br>&#125;<br><br><span class="hljs-comment">// Same to find kth smallest element in an array</span><br><span class="hljs-comment">// Modified for the partition function of quicksort</span><br><span class="hljs-keyword">private</span> <span class="hljs-type">int</span> <span class="hljs-title function_">partition</span><span class="hljs-params">(<span class="hljs-type">int</span>[] nums, <span class="hljs-type">int</span> left, <span class="hljs-type">int</span> right, <span class="hljs-type">int</span> k)</span> &#123;<br>    <span class="hljs-keyword">if</span> (left == right) &#123;<br>        <span class="hljs-keyword">return</span> nums[k];<br>    &#125;<br>    <br>    <span class="hljs-type">int</span> <span class="hljs-variable">start</span> <span class="hljs-operator">=</span> left;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">end</span> <span class="hljs-operator">=</span> right;<br>    <span class="hljs-type">int</span> <span class="hljs-variable">pivot</span> <span class="hljs-operator">=</span> nums[(end - start) / <span class="hljs-number">2</span> + start];<br>    <span class="hljs-keyword">while</span> (start &lt;= end) &#123;<br>        <span class="hljs-keyword">while</span> (nums[start] &lt; pivot &amp;&amp; start &lt;= end) &#123;<br>            start++;<br>        &#125;<br>        <span class="hljs-keyword">while</span> (nums[end] &gt; pivot &amp;&amp; start &lt;= end) &#123;<br>            end--;<br>        &#125;<br>        <span class="hljs-keyword">if</span> (start &lt;= end) &#123;<br>            <span class="hljs-type">int</span> <span class="hljs-variable">temp</span> <span class="hljs-operator">=</span> nums[start];<br>            nums[start] = nums[end];<br>            nums[end] = temp;<br>            start++;<br>            end--;<br>        &#125;<br>    &#125;<br>    <br>    <br>    <span class="hljs-keyword">if</span> (k &lt;= end) &#123;<br>        <span class="hljs-keyword">return</span> partition(nums, left, end, k);<br>    &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (k &gt;= start) &#123;<br>        <span class="hljs-keyword">return</span> partition(nums, start, right, k);<br>    &#125;<br>    <span class="hljs-keyword">return</span> nums[k];<br>&#125;<br></code></pre></td></tr></table></figure>
+                <h1 id="Android-sutdio第一次打开一个工程巨慢怎么办？"><a href="#Android-sutdio第一次打开一个工程巨慢怎么办？" class="headerlink" title="Android sutdio第一次打开一个工程巨慢怎么办？"></a>Android sutdio第一次打开一个工程巨慢怎么办？</h1><p>Android Studio一个项目所用的Gradle是由我们的工程中下面这个文件决定的:</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">&#123;your project&#125;/gradle/<span class="hljs-keyword">wrapper</span>/gradle-<span class="hljs-keyword">wrapper</span>.properties<br></code></pre></td></tr></table></figure>
 
+<p>文件内容如下：</p>
+<figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs properties"><span class="hljs-attr">distributionBase</span>=<span class="hljs-string">GRADLE_USER_HOME</span><br><span class="hljs-attr">distributionPath</span>=<span class="hljs-string">wrapper/dists</span><br><span class="hljs-attr">zipStoreBase</span>=<span class="hljs-string">GRADLE_USER_HOME</span><br><span class="hljs-attr">zipStorePath</span>=<span class="hljs-string">wrapper/dists</span><br><span class="hljs-attr">distributionUrl</span>=<span class="hljs-string">https\://services.gradle.org/distributions/gradle-2.4-all.zip</span><br></code></pre></td></tr></table></figure>
+
+<p>其中GRADLE_USER_HOME可以在studio里面设置，系统环境变量也可以。</p>
+<p>Android Studio打开一个工程时，首先会读取<code>gradle-wrapper.properties</code> 文件，从而知道这个工程需要哪个版本的gradle ,然后就会去保存gradle的文件夹<code>GRADLE_USER_HOME</code> 去找看存不存在这个版本的gradle，不存在则会去<code>distributionUrl</code> 去下载 。</p>
+<p>为什么我明明下载了gradle，也指定了gradle的存放目录，可打开的时候还是会去自动下载gradle了，那是因为你没有配对地方。现在回过来看项目配置文件是不是<code>gradle/wrapper/gradle-wrapper.properties</code> 是不是恍然大悟？</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">Gradle下载地址：https:<span class="hljs-regexp">//</span>services.gradle.org<span class="hljs-regexp">/distributions/</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="/img/20160602175350971.png" srcset="/img/loading.gif" lazyload></p>
+<ul>
+<li><p>下载对应版本的gradle，复制到上图中一串乱码的文件夹下，注意不要解压。这样我们就跳过了下载gradle这一步。</p>
+</li>
+<li><p>重新开启Android Studio打开工程</p>
+</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010142437/article/details/109119501">https://blog.csdn.net/u010142437/article/details/109119501</a></p>
 
                 
               </div>
@@ -309,7 +328,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E7%AE%97%E6%B3%95%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="category-chain-item">算法与数据结构</a>
+  <a href="/categories/Android/" class="category-chain-item">Android</a>
   
   
 
@@ -329,8 +348,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>算法与数据结构</div>
-      <div>http://zsy1728.gitee.io/2022/07/27/code/</div>
+      <div>打开应用时gradle下载慢</div>
+      <div>http://zsy1728.gitee.io/2023/01/15/gradle/</div>
     </div>
     <div class="license-meta">
       
@@ -342,7 +361,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年7月27日</div>
+          <div>2023年1月15日</div>
         </div>
       
       
@@ -374,18 +393,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/09/07/%E5%BA%93%E8%A1%A8%E8%AE%BE%E8%AE%A1/" title="根据需求做库表设计的技巧">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">根据需求做库表设计的技巧</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/07/08/vue%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99/" title="Vue项目启动报错">
-                        <span class="hidden-mobile">Vue项目启动报错</span>
+                      <a href="/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/" title="SpringBoot启动慢怎么破">
+                        <span class="hidden-mobile">SpringBoot启动慢怎么破</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
