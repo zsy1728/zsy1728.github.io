@@ -23,13 +23,14 @@
 <meta property="og:site_name" content="zsy1728">
 <meta property="og:description" content="一张图看懂socket">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://zsy1728.gitee.io/img/socket.png">
+<meta property="og:image" content="http://zsy1728.gitee.io/img/net/socket.png">
+<meta property="og:image" content="http://zsy1728.gitee.io/img/net/tcp.png">
 <meta property="article:published_time" content="2021-12-17T15:27:28.000Z">
-<meta property="article:modified_time" content="2023-01-25T16:13:19.649Z">
+<meta property="article:modified_time" content="2023-01-25T17:40:28.390Z">
 <meta property="article:author" content="张思岩">
 <meta property="article:tag" content="Socket">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://zsy1728.gitee.io/img/socket.png">
+<meta name="twitter:image" content="http://zsy1728.gitee.io/img/net/socket.png">
   
   
   
@@ -238,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          104 字
+          2.4k 字
         
       </span>
     
@@ -249,7 +250,7 @@
         
         
         
-          1 分钟
+          20 分钟
         
       </span>
     
@@ -294,7 +295,27 @@
                 
                 <p>socket属于传输层</p>
 <p>socket是基于应用服务与TCP&#x2F;IP通信之间的一个抽象，他将TCP&#x2F;IP协议里面复杂的通信逻辑进行分装，对用户来说，只要通过一组简单的API就可以实现网络的连接。</p>
-<p><img src="/img/socket.png" srcset="/img/loading.gif" lazyload></p>
+<p><img src="/img/net/socket.png" srcset="/img/loading.gif" lazyload alt="socket"></p>
+<h1 id="粘包"><a href="#粘包" class="headerlink" title="粘包"></a><strong>粘包</strong></h1><p>出现粘包现象的原因是多方面的:</p>
+<p>1)发送方粘包：由TCP协议本身造成的，TCP为提高传输效率，发送方往往要收集到足够多的数据后才发送一包数据。若连续几次发送的数据都很少，通常TCP会根据优化算法把这些数据合成一包后一次发送出去，这样接收方就收到了粘包数据。</p>
+<p>2)接收方粘包：接收方用户进程不及时接收数据，从而导致粘包现象。这是因为接收方先把收到的数据放在系统s接收缓冲区，用户进程从该缓冲区取数据，若下一包数据到达时前一包数据尚未被用户进程取走，则下一包数据放到系统接收缓冲区时就接到前一包数据之后，而用户进程根据预先设定的缓冲区大小从系统接收缓冲区取数据，这样就一次取到了多包数据。</p>
+<p><img src="/img/net/tcp.png" srcset="/img/loading.gif" lazyload alt="tcp"></p>
+<p>粘包：多个数据包一起放在了缓冲区</p>
+<ol>
+<li>如果发送方发送的多组数据本来就是同一块数据的不同部分，比如说一个文件被分成多个部分发送，这时当然不需要处理粘包现象</li>
+<li>如果多个分组毫不相干，甚至是并列关系，那么这个时候就一定要处理粘包现象了</li>
+</ol>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><ul>
+<li>固定长度：每次发送固定长度的数据；</li>
+<li>特殊标示：以回车，换行作为特殊标示；获取到指定的标识时，说明包获取完整。</li>
+<li>字节长度：包头+包长+包体的协议形式，当服务器端获取到指定的包长时才说明获取完整；</li>
+</ul>
+<p>代码演示第三种：</p>
+<h3 id="socket服务端"><a href="#socket服务端" class="headerlink" title="socket服务端:"></a>socket服务端:</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> socket.socket1.socket5;<br> <br><span class="hljs-keyword">import</span> java.io.DataInputStream;<br> <br><span class="hljs-keyword">import</span> java.io.IOException;<br> <br><span class="hljs-keyword">import</span> java.io.InputStream;<br> <br><span class="hljs-keyword">import</span> java.net.ServerSocket;<br> <br><span class="hljs-keyword">import</span> java.net.Socket;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ServerSocketTest</span> &#123;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br> <br><span class="hljs-keyword">try</span> &#123;<br> <br><span class="hljs-type">ServerSocket</span> <span class="hljs-variable">serverSocket</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">ServerSocket</span>(<span class="hljs-number">9999</span>);<br> <br>                <span class="hljs-type">Socket</span> <span class="hljs-variable">client</span> <span class="hljs-operator">=</span> serverSocket.accept();<br> <br>                <span class="hljs-type">InputStream</span> <span class="hljs-variable">inputStream</span> <span class="hljs-operator">=</span> client.getInputStream();<br> <br>                <span class="hljs-type">DataInputStream</span> <span class="hljs-variable">dataInputStream</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">DataInputStream</span>(inputStream);<br> <br>                <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>)&#123;<br> <br>                    <span class="hljs-type">byte</span> <span class="hljs-variable">b</span> <span class="hljs-operator">=</span> dataInputStream.readByte();<br> <br>                    <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span> dataInputStream.readInt();<br> <br>                    <span class="hljs-type">byte</span>[] data =<span class="hljs-keyword">new</span> <span class="hljs-title class_">byte</span>[len -<span class="hljs-number">5</span>];<br> <br>                    dataInputStream.readFully(data);<br> <br>                    <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">String</span>(data);<br> <br>                    System.out.println(<span class="hljs-string">&quot;获取的数据类型为：&quot;</span>+b);<br> <br>                    System.out.println(<span class="hljs-string">&quot;获取的数据长度为：&quot;</span>+len);<br> <br>                    System.out.println(<span class="hljs-string">&quot;获取的数据内容为：&quot;</span>+str);<br> <br>                &#125;<br> <br>&#125;<span class="hljs-keyword">catch</span> (IOException e) &#123;<br> <br>e.printStackTrace();<br> <br>        &#125;<br> <br>&#125;<br> <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="socket的客户端："><a href="#socket的客户端：" class="headerlink" title="socket的客户端："></a>socket的客户端：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">package</span> socket.socket1.socket5;<br> <br><span class="hljs-keyword">import</span> java.io.*;<br> <br><span class="hljs-keyword">import</span> java.net.Socket;<br> <br><span class="hljs-keyword">import</span> java.util.Scanner;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ClientSocketTest</span> &#123;<br> <br><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">main</span><span class="hljs-params">(String[] args)</span> &#123;<br> <br><span class="hljs-keyword">try</span> &#123;<br> <br><span class="hljs-type">Socket</span> <span class="hljs-variable">socket</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Socket</span>(<span class="hljs-string">&quot;127.0.0.1&quot;</span>,<span class="hljs-number">9999</span>);<br> <br>            <span class="hljs-type">OutputStream</span> <span class="hljs-variable">outputStream</span> <span class="hljs-operator">=</span> socket.getOutputStream();<br> <br>            <span class="hljs-type">DataOutputStream</span> <span class="hljs-variable">dataOutputStream</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">DataOutputStream</span>(outputStream);<br> <br>            <span class="hljs-type">Scanner</span> <span class="hljs-variable">scanner</span> <span class="hljs-operator">=</span><span class="hljs-keyword">new</span> <span class="hljs-title class_">Scanner</span>(System.in);<br> <br>            <span class="hljs-keyword">if</span>(scanner.hasNext())&#123;<br> <br>            <span class="hljs-type">String</span> <span class="hljs-variable">str</span> <span class="hljs-operator">=</span> scanner.next();<br> <br>                <span class="hljs-type">int</span> <span class="hljs-variable">type</span> <span class="hljs-operator">=</span><span class="hljs-number">1</span>;<br> <br>                <span class="hljs-type">byte</span>[] data = str.getBytes();<br> <br>                <span class="hljs-type">int</span> <span class="hljs-variable">len</span> <span class="hljs-operator">=</span> data.length +<span class="hljs-number">5</span>;<br> <br>                dataOutputStream.writeByte(type);<br> <br>                dataOutputStream.writeInt(len);<br> <br>                dataOutputStream.write(data);<br> <br>                dataOutputStream.flush();<br> <br>            &#125;<br> <br>&#125;<span class="hljs-keyword">catch</span> (IOException e) &#123;<br> <br>e.printStackTrace();<br> <br>        &#125;<br> <br>&#125;<br> <br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h1 id="长连接"><a href="#长连接" class="headerlink" title="长连接"></a>长连接</h1><p>流关闭了而不关闭Socket，还是无法达到长连接的效果的（流只有一个）</p>
 
                 
               </div>
