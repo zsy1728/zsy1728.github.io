@@ -309,6 +309,31 @@
   
   
   <entry>
+    <title>Socket学习笔记</title>
+    <link href="/2021/12/17/scoket/"/>
+    <url>/2021/12/17/scoket/</url>
+    
+    <content type="html"><![CDATA[<p>socket属于传输层</p><p>socket是基于应用服务与TCP&#x2F;IP通信之间的一个抽象，他将TCP&#x2F;IP协议里面复杂的通信逻辑进行分装，对用户来说，只要通过一组简单的API就可以实现网络的连接。</p><p><img src="/img/socket.png"></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>网络</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Socket</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Vue.js学习笔记终极版</title>
     <link href="/2021/10/06/vue%E5%AD%A6%E4%B9%A0/"/>
     <url>/2021/10/06/vue%E5%AD%A6%E4%B9%A0/</url>
@@ -335,8 +360,8 @@
   
   <entry>
     <title>桥接模式和NAT模式的区别</title>
-    <link href="/2021/07/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/"/>
-    <url>/2021/07/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/</url>
+    <link href="/2021/08/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/"/>
+    <url>/2021/08/27/%E6%A1%A5%E6%8E%A5%E5%92%8CNAT/</url>
     
     <content type="html"><![CDATA[<h3 id="一、桥接模式（bridged-networking）"><a href="#一、桥接模式（bridged-networking）" class="headerlink" title="一、桥接模式（bridged networking）"></a>一、桥接模式（bridged networking）</h3><p>在桥接模式下，VMWare虚拟出来的操作系统就像是局域网中一台独立的主机，它能够访问网内任何一台机器。</p><p><strong>在桥接模式下，你必须手工为虚拟系统配置IP地址、子网掩码，并且还要和宿主机器处于同一网段，这样虚拟系统才干和宿主机器进行通信。</strong></p><p>配置好网关和DNS的地址后。才能实现通过局域网的网关或路由器访问互联网。</p><p><strong>桥接模式：虚机和物理主机可通信，可与外网通信。</strong></p><h3 id="二、NAT模式-network-address-translation"><a href="#二、NAT模式-network-address-translation" class="headerlink" title="二、NAT模式(network address translation)"></a>二、NAT模式(network address translation)</h3><p>这种模式就是让虚拟系统借助NAT(网络地址转换)功能，通过宿主机器所在的网络来访问公网。</p><p><strong>也就是说，使用NAT模式能够实现在虚拟的系统里面直接访问互联网。NAT模式下的虚拟系统的TCP&#x2F;IP配置信息是由VMnet8(NAT)虚拟网络的DHCPserver提供的，无法进行手工改动，因此虚拟系统也就无法和本局域网中的其它真实主机进行通讯。採用NAT模式最大的优势是虚拟系统接入互联网很easy。仅仅需要宿主机器能访问互联网，不需配置IP地址，子网掩码，网关。可是DNS地址还是要依据实际情况配的。</strong></p><p>加入DNS地址除了在网卡属性中填写。还能够在虚拟机中的“虚拟网络编辑器”中的NAT选项卡中点击“编辑”button中来加入。</p><p>如今是主机和虚拟机互通，假设你的adsl带路由功能。那关闭虚拟机的dhcp，选桥接，检查2机是否分配同网段的IP，关闭防火墙。</p><p>NAT模式：虚机可和外网通信</p><h3 id="三、仅主机模式："><a href="#三、仅主机模式：" class="headerlink" title="三、仅主机模式："></a>三、仅主机模式：</h3><p>仅让虚拟机的系统之间与物理主机通信，不能访问外网，在真机中对应的物理网卡是VMnet1。</p><p>如果只是要让虚拟机能上网，这桥接模式和nat模式都可以使用。用桥接的话只要你在局域网内有合法的地址，比方你的ADSL猫是带路由功能的，假设是在单位。那就要网管给你合法IP才行（如今公司都是mac和ip绑定的）。</p><p>原文链接：<a href="https://blog.csdn.net/qq_34536480/article/details/114266461">https://blog.csdn.net/qq_34536480/article/details/114266461</a></p>]]></content>
     
