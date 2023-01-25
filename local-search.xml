@@ -23,6 +23,31 @@
   
   
   <entry>
+    <title>JavaIO</title>
+    <link href="/2023/01/12/javaIO/"/>
+    <url>/2023/01/12/javaIO/</url>
+    
+    <content type="html"><![CDATA[<p>虽然java IO类库庞大，但总体来说其框架还是很清楚的。从是读媒介还是写媒介的维度看，Java IO可以分为：</p><table><thead><tr><th>-</th><th>字节流</th><th>字符流</th></tr></thead><tbody><tr><td>输入流</td><td>InputStream</td><td>Reader</td></tr><tr><td>输出流</td><td>OutputStream</td><td>Writer</td></tr></tbody></table><p><img src="/img/20150910154516952.png"></p><p>各类用途汇总如下：</p><ul><li>文件访问</li><li>网络访问</li><li>内存缓存访问</li><li>线程内部通信(管道)</li><li>缓冲</li><li>过滤</li><li>解析</li><li>读写文本 (Readers &#x2F; Writers)</li><li>读写基本类型数据 (long, int etc.)</li><li>读写对象</li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>Java</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>JDK</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>SpringBoot启动慢怎么破</title>
     <link href="/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/"/>
     <url>/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/</url>
