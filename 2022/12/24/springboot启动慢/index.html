@@ -18,22 +18,23 @@
   
     <meta name="description" content="Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，本文主要介绍一种解决方案">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SpringBoot启动慢怎么破">
+<meta property="og:title" content="SpringBoot启动慢怎么破 [未完成]">
 <meta property="og:url" content="http://zsy1728.gitee.io/2022/12/24/springboot%E5%90%AF%E5%8A%A8%E6%85%A2/index.html">
 <meta property="og:site_name" content="zsy1728">
 <meta property="og:description" content="Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，本文主要介绍一种解决方案">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://zsy1728.gitee.io/img/spring/1525c51fbf634f86a03e92ae4f266c4d.png">
 <meta property="og:image" content="http://zsy1728.gitee.io/img/spring/1350888580_1225.jpg">
 <meta property="article:published_time" content="2022-12-24T14:56:17.000Z">
-<meta property="article:modified_time" content="2022-12-24T15:27:03.679Z">
+<meta property="article:modified_time" content="2023-03-30T09:25:00.570Z">
 <meta property="article:author" content="张思岩">
 <meta property="article:tag" content="Spring">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://zsy1728.gitee.io/img/spring/1350888580_1225.jpg">
+<meta name="twitter:image" content="http://zsy1728.gitee.io/img/spring/1525c51fbf634f86a03e92ae4f266c4d.png">
   
   
   
-  <title>SpringBoot启动慢怎么破 - zsy1728</title>
+  <title>SpringBoot启动慢怎么破 [未完成] - zsy1728</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -215,7 +216,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="SpringBoot启动慢怎么破"></span>
+            <span id="subtitle" data-typed-text="SpringBoot启动慢怎么破 [未完成]"></span>
           
         </div>
 
@@ -238,7 +239,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          721 字
+          2.2k 字
         
       </span>
     
@@ -249,7 +250,7 @@
         
         
         
-          7 分钟
+          19 分钟
         
       </span>
     
@@ -287,12 +288,21 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">SpringBoot启动慢怎么破</h1>
+            <h1 style="display: none">SpringBoot启动慢怎么破 [未完成]</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，maven中是否无用的依赖太多，其实大部分的启动时间是由于 Spring 需要加载各种 Bean 导致启动速度下降的。</p>
+                <h1 id="Spring-Boot启动流程"><a href="#Spring-Boot启动流程" class="headerlink" title="Spring Boot启动流程"></a>Spring Boot启动流程</h1><h2 id="1-Spring-Boot-启动流程图"><a href="#1-Spring-Boot-启动流程图" class="headerlink" title="1 Spring Boot 启动流程图"></a>1 Spring Boot 启动流程图</h2><p><img src="/img/spring/1525c51fbf634f86a03e92ae4f266c4d.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="2-SpringApplication-构造方法"><a href="#2-SpringApplication-构造方法" class="headerlink" title="2 SpringApplication 构造方法"></a>2 SpringApplication 构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-keyword">public</span> <span class="hljs-title function_">SpringApplication</span><span class="hljs-params">(ResourceLoader resourceLoader, Class&lt;?&gt;... primarySources)</span> &#123;<br>	<span class="hljs-comment">// 初始化资源加载器，默认为null</span><br>	<span class="hljs-built_in">this</span>.resourceLoader = resourceLoader;<br>	<span class="hljs-comment">// 断言主要加载资源类不能为空</span><br>	Assert.notNull(primarySources, <span class="hljs-string">&quot;PrimarySources must not be null&quot;</span>);<br>	<span class="hljs-comment">// 初始化主要资源加载类集合并去重</span><br>	<span class="hljs-built_in">this</span>.primarySources = <span class="hljs-keyword">new</span> <span class="hljs-title class_">LinkedHashSet</span>&lt;&gt;(Arrays.asList(primarySources));<br>	<span class="hljs-comment">// 得到当前WEB应用类型</span><br>	<span class="hljs-built_in">this</span>.webApplicationType = WebApplicationType.deduceFromClasspath();<br>	<span class="hljs-comment">// 设置应用上下文初始化器并去重</span><br>	setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));<br>	<span class="hljs-comment">// 设置监听器并去重</span><br>	setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));<br>	<span class="hljs-comment">// 得到主应用程序启动类</span><br>	<span class="hljs-built_in">this</span>.mainApplicationClass = deduceMainApplicationClass();<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<h3 id="2-1-primarySources"><a href="#2-1-primarySources" class="headerlink" title="2.1 primarySources"></a>2.1 primarySources</h3><p> 启动类的Class文件，携带着包的ClassLoader</p>
+<h3 id="2-2-得到web应用类型"><a href="#2-2-得到web应用类型" class="headerlink" title="2.2 得到web应用类型"></a>2.2 得到web应用类型</h3><p>一共有三种类型：NONE、SERVLET、REACTIVE</p>
+<h3 id="2-3-加载Spring应用上下文初始化器-setInitializers"><a href="#2-3-加载Spring应用上下文初始化器-setInitializers" class="headerlink" title="2.3 加载Spring应用上下文初始化器 setInitializers"></a>2.3 加载Spring应用上下文初始化器 setInitializers</h3><p>从”META-INF&#x2F;spring.factories”文件读取key为ApplicationContextInitializer的实例名称集合并去重</p>
+<h3 id="2-4-设置监听器"><a href="#2-4-设置监听器" class="headerlink" title="2.4 设置监听器"></a>2.4 设置监听器</h3><p>从”META-INF&#x2F;spring.factories”文件读取key为ApplicationListener的实例名称集合并去重</p>
+<h3 id="2-5-得到程序主启动类"><a href="#2-5-得到程序主启动类" class="headerlink" title="2.5 得到程序主启动类"></a>2.5 得到程序主启动类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-built_in">this</span>.mainApplicationClass = deduceMainApplicationClass();<br><span class="hljs-keyword">private</span> Class&lt;?&gt; deduceMainApplicationClass() &#123;<br>	StackTraceElement[] stackTrace = <span class="hljs-keyword">new</span> <span class="hljs-title class_">RuntimeException</span>().getStackTrace();<br>    <span class="hljs-keyword">for</span> (StackTraceElement stackTraceElement : stackTrace) &#123;<br>    	<span class="hljs-keyword">if</span> (<span class="hljs-string">&quot;main&quot;</span>.equals(stackTraceElement.getMethodName())) &#123;<br>    		<span class="hljs-keyword">return</span> Class.forName(stackTraceElement.getClassName());<br>    	&#125;<br>    &#125;<br>&#125;<br><span class="hljs-comment">// 竟然这样。。。</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="2-SpringApplication-run方法"><a href="#2-SpringApplication-run方法" class="headerlink" title="2 SpringApplication run方法"></a>2 SpringApplication run方法</h2><p>Spring Boot启动速度慢有很多原因，可能是项目中使用的无用配置太多，自动配置，项目太过庞大、复杂等，maven中是否无用的依赖太多，其实大部分的启动时间是由于 Spring 需要加载各种 Bean 导致启动速度下降的。</p>
 <p><strong>所以我们现在讨论如何用 BeanPostProcessor 统计 Bean 的初始化时间。</strong></p>
 <p><img src="/img/spring/1350888580_1225.jpg" srcset="/img/loading.gif" lazyload alt="bean生命周期"></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-meta">@Component</span><br><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">HelloServiceInjectProcessor</span> <span class="hljs-keyword">implements</span> <span class="hljs-title class_">BeanPostProcessor</span> &#123;<br><br>    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> ConcurrentHashMap&lt;String, Long&gt; START_TIHE = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ConcurrentHashMap</span>(); <br>    <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessBeforeInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        START_TIME.put(beanName, System.currentTimeMillis( ));<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br> <br>    <span class="hljs-meta">@Override</span><br>    <span class="hljs-keyword">public</span> Object <span class="hljs-title function_">postProcessAfterInitialization</span><span class="hljs-params">(Object bean, String beanName)</span> <span class="hljs-keyword">throws</span> BeansException &#123;<br>        <span class="hljs-keyword">if</span> (Objects.notNull(START_TIME.get(beanName))) &#123;<br>            <span class="hljs-comment">// print something</span><br>        &#125;<br>        <span class="hljs-keyword">return</span> bean;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -342,7 +352,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>SpringBoot启动慢怎么破</div>
+      <div>SpringBoot启动慢怎么破 [未完成]</div>
       <div>http://zsy1728.gitee.io/2022/12/24/springboot启动慢/</div>
     </div>
     <div class="license-meta">
@@ -387,9 +397,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/01/12/javaIO/" title="JavaIO">
+                      <a href="/2023/01/12/javaIO/" title="JavaIO [未完成]">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">JavaIO</span>
+                        <span class="hidden-mobile">JavaIO [未完成]</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
